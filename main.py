@@ -9,8 +9,9 @@ import config
 from kivy.garden.mapview import MapView, MapMarker, MarkerMapLayer
 from kivy.app import App
 from kivy.clock import Clock
-from kivy.properties import ListProperty, ObjectProperty, DictProperty
+from kivy.properties import ListProperty, ObjectProperty, DictProperty, NumericProperty
 from kivy.animation import Animation
+from kivy.event import EventDispatcher
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.bubble import Bubble
 from kivy.uix.label import Label
@@ -86,6 +87,18 @@ class PokemonMarker(PokeMarker):
     #     print json.dumps(self.pokemon)
 
 
+class MapCenterer(EventDispatcher):
+    lat = NumericProperty(0)
+    lon = NumericProperty(0)
+    mapview = ObjectProperty(None)
+
+    def __init__(self, *a, **kw):
+        super(MapCenterer, self).__init__(*a, **kw)
+        self.bind(lat=self._recenter, lon=self._recenter)
+
+    def _recenter(self, *a):
+        self.mapview.center_on(self.lat, self.lon)
+
 class PokeVyApp(App):
     mapview = ObjectProperty(None)
     location = ListProperty(None)
@@ -120,6 +133,14 @@ class PokeVyApp(App):
                 self.location = [lat, lon]
                 anim = Animation(lat=lat, lon=lon, d=1) #t="in_out_cubic",
                 anim.start(self.player_marker)
+
+                if self.player_marker.x < self.root.x or self.player_marker.right > self.root.right or \
+                   self.player_marker.y < self.root.y or self.player_marker.top > self.root.top:
+                    centerer = MapCenterer(lon=self.mapview.lon, 
+                                           lat=self.mapview.lat,
+                                           mapview=self.mapview)
+                    anim = Animation(lat=lat, lon=lon, t="in_out_cubic", d=0.5)
+                    anim.start(centerer)
 
             with open(config.cells_file, "r") as f:
                 self.cells = json.load(f)
