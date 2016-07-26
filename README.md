@@ -1,6 +1,6 @@
 # PokeVy
 
-A Kivy front-end for [PokemonGo-Bot](https://github.com/PokemonGoF/PokemonGo-Bot).
+A ![Kivy](http://kivy.org) front-end for [PokemonGo-Bot](https://github.com/PokemonGoF/PokemonGo-Bot).
 
 ![PokeVy Screenshot](screenshot.jpg)
 
@@ -28,8 +28,8 @@ Awesome! You're ready to use PokeVy! Just start PokemonGo-Bot as usual, then run
 
 ## Troubleshooting
 
-### "location-(username).json - No such file or directory"
+### "last-location-(username).json - No such file or directory"
 
 For some reason, PokemonGo-Bot does not write to that file unless it already exists. Just create it.
 
-`cd` to PokemonGo-Bot's path and run `touch data/location-(username).json`, replacing `(username)` with your username.
+`cd` to PokemonGo-Bot's path and run `touch data/last-location-(username).json`, replacing `(username)` with your username.
