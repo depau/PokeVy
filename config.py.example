@@ -1,0 +1,11 @@
+import os
+
+### EDIT THIS
+username = "username"
+pokebot_path = "/absolute/path/to/PokemonGo-Bot"
+### STOP EDITING :*
+
+image_path = os.path.join(pokebot_path, "web/image")
+location_file = os.path.join(pokebot_path, "data/last-location-{0}.json".format(username))
+cells_file = os.path.join(pokebot_path, "data/cells-{0}.json".format(username))
+inventory_file = os.path.join(pokebot_path, "web/inventory-{0}.json".format(username))
